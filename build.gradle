@@ -38,7 +38,6 @@ buildscript {
 
 flyway {
     url = 'jdbc:h2:file:./target/telegram'
-//    user = ''
 }
 
 dependencies {
@@ -51,8 +50,21 @@ dependencies {
     compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     compile group: 'com.zaxxer', name: 'HikariCP', version: '2.6.1'
+    // https://mvnrepository.com/artifact/postgresql/postgresql
+    compile group: 'postgresql', name: 'postgresql', version: '9.4.1208-jdbc42-atlassian-hosted'
 
-
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    compile "com.google.code.gson:gson:2.7"
+    compile 'com.julienviet:retrofit-vertx:1.0.1'
+    compile "io.vertx:vertx-core:3.4.1"
+    compile "org.reflections:reflections:0.9.11"
+    compile 'io.github.microutils:kotlin-logging:1.4.4'
+    compile 'joda-time:joda-time:2.9.9'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    compile group: 'com.google.guava', name: 'guava', version: '21.0'
     compile 'io.vertx:vertx-web-client:3.4.1'
     compile 'io.vertx:vertx-jdbc-client:3.4.1'
     compile 'io.github.jklingsporn:vertx-jooq:1.0.0'
@@ -104,5 +116,5 @@ task generate << {
 
 
 task wrapper(type: Wrapper) {
-        gradleVersion = '3.4.1'
+    gradleVersion = '3.4.1'
 }

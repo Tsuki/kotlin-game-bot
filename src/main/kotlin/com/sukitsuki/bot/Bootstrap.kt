@@ -55,13 +55,12 @@ fun main(args: Array<String>) {
     bot.listen(properties.lastId, VisitorUpdateHandler(visitor = object : AbstractUpdateVisitor() {
         override fun visitText(update: Update, message: Message, text: String): Boolean {
             if (update.message != null) {
-                logger.info("Send message to ${update.senderId} from ${update.message?.messageId}")
+                logger.info("Send message to ${update.senderId} from " +
+                        "${update.message.chat.firstName},${update.message.chat.lastName},${update.message.chat.title}")
                 using.mergeInto(CHAT, CHAT.CHATID, CHAT.NAME, CHAT.TYPE).key(CHAT.CHATID)
                         .values(update.senderId.toInt(),
-                                "${update.message?.chat?.firstName}," +
-                                        "${update.message?.chat?.lastName}," +
-                                        "${update.message?.chat?.title}"
-                                , update.message?.chat?.type)
+                                "${update.message.chat.firstName},${update.message.chat.lastName},${update.message.chat.title}"
+                                , update.message.chat.type)
                         .execute()
             }
             when (text) {
