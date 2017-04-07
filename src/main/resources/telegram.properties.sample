@@ -1,0 +1,4 @@
+token=
+handleUnknown=true
+hookUrl=https://example.ngrok.io/
+webHook=false
