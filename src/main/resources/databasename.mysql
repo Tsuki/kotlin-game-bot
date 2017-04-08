@@ -1,0 +1,1303 @@
+-- MySQL dump 10.13  Distrib 5.7.17, for osx10.11 (x86_64)
+--
+-- Host: localhost    Database: RPG
+-- ------------------------------------------------------
+-- Server version	5.7.17
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO,POSTGRESQL' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table "ability"
+--
+
+DROP TABLE IF EXISTS "ability";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "ability" (
+  "ability_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "ability_type_id" int(11) unsigned NOT NULL,
+  "required_level" smallint(6) DEFAULT NULL,
+  PRIMARY KEY ("ability_id"),
+  KEY "fk_ability_ability_type_id" ("ability_type_id"),
+  CONSTRAINT "fk_ability_ability_type_id" FOREIGN KEY ("ability_type_id") REFERENCES "ability_type" ("ability_type_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "ability"
+--
+
+LOCK TABLES "ability" WRITE;
+/*!40000 ALTER TABLE "ability" DISABLE KEYS */;
+/*!40000 ALTER TABLE "ability" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "ability_type"
+--
+
+DROP TABLE IF EXISTS "ability_type";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "ability_type" (
+  "ability_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "desc" varchar(255) DEFAULT NULL,
+  PRIMARY KEY ("ability_type_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "ability_type"
+--
+
+LOCK TABLES "ability_type" WRITE;
+/*!40000 ALTER TABLE "ability_type" DISABLE KEYS */;
+/*!40000 ALTER TABLE "ability_type" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "attribute"
+--
+
+DROP TABLE IF EXISTS "attribute";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "attribute" (
+  "attribute_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "desc" varchar(255) DEFAULT NULL,
+  PRIMARY KEY ("attribute_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "attribute"
+--
+
+LOCK TABLES "attribute" WRITE;
+/*!40000 ALTER TABLE "attribute" DISABLE KEYS */;
+INSERT INTO "attribute" VALUES (1,'strength','A measure of how physically strong a character is.'),(2,'constitution','A measure of how resilient a character is.'),(3,'dexterity','A measure of how agile a character is.'),(4,'intelligence','A measure of a character\'s problem-solving ability.'),(5,'charisma','A measure of a character\'s social skills, and sometimes their physical appearance.'),(6,'wisdom','A measure of a character\'s common sense and/or spirituality.'),(7,'willpower','A measure of the character\'s mental resistance.'),(8,'perception','A measure of a character\'s openness to their surroundings.'),(9,'luck','A measure of a character having chance to favor him or her.'),(10,'damage','A measure to inflict damage');
+/*!40000 ALTER TABLE "attribute" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character"
+--
+
+DROP TABLE IF EXISTS "character";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character" (
+  "character_id" int(11) unsigned NOT NULL,
+  "character_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "alive" tinyint(4) NOT NULL,
+  "level" smallint(6) NOT NULL,
+  "xp" bigint(20) NOT NULL,
+  "money" bigint(20) NOT NULL,
+  PRIMARY KEY ("character_id"),
+  KEY "fk_character_character_type_id" ("character_type_id"),
+  CONSTRAINT "fk_character_character_type_id" FOREIGN KEY ("character_type_id") REFERENCES "character_type" ("character_type_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character"
+--
+
+LOCK TABLES "character" WRITE;
+/*!40000 ALTER TABLE "character" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_attribute"
+--
+
+DROP TABLE IF EXISTS "character_attribute";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_attribute" (
+  "character_attribute_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "attribute_id" int(11) unsigned NOT NULL,
+  "value" bigint(20) NOT NULL,
+  PRIMARY KEY ("character_attribute_id"),
+  UNIQUE KEY "uk_character_id_attribute_id" ("character_id","attribute_id"),
+  KEY "fk_character_attribute_attribute_id" ("attribute_id"),
+  CONSTRAINT "fk_character_attribute_attribute_id" FOREIGN KEY ("attribute_id") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_attribute_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_attribute"
+--
+
+LOCK TABLES "character_attribute" WRITE;
+/*!40000 ALTER TABLE "character_attribute" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_attribute" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_class"
+--
+
+DROP TABLE IF EXISTS "character_class";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_class" (
+  "character_class_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "class_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("character_class_id"),
+  UNIQUE KEY "uk_character_id" ("character_id"),
+  KEY "fk_character_class_class_id" ("class_id"),
+  CONSTRAINT "fk_character_class_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_class_class_id" FOREIGN KEY ("class_id") REFERENCES "class" ("class_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_class"
+--
+
+LOCK TABLES "character_class" WRITE;
+/*!40000 ALTER TABLE "character_class" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_class" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_equipment"
+--
+
+DROP TABLE IF EXISTS "character_equipment";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_equipment" (
+  "character_equipment_id" int(11) unsigned NOT NULL,
+  "equipment_slot_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "item_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("equipment_slot_id"),
+  UNIQUE KEY "uk_equipment_slot_id_character_id" ("equipment_slot_id","character_id"),
+  KEY "fk_character_equipment_character_id" ("character_id"),
+  KEY "fk_character_equipment_item_id" ("item_id"),
+  CONSTRAINT "fk_character_equipment_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_equipment_equipment_slot_id" FOREIGN KEY ("equipment_slot_id") REFERENCES "equipment_slot" ("equipment_slot_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_equipment_item_id" FOREIGN KEY ("item_id") REFERENCES "item" ("item_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_equipment"
+--
+
+LOCK TABLES "character_equipment" WRITE;
+/*!40000 ALTER TABLE "character_equipment" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_equipment" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_faction"
+--
+
+DROP TABLE IF EXISTS "character_faction";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_faction" (
+  "character_faction_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "faction_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("character_faction_id"),
+  KEY "fk_character_faction_character_id" ("character_id"),
+  KEY "fk_character_faction_faction_id" ("faction_id"),
+  CONSTRAINT "fk_character_faction_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_faction_faction_id" FOREIGN KEY ("faction_id") REFERENCES "faction" ("faction_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_faction"
+--
+
+LOCK TABLES "character_faction" WRITE;
+/*!40000 ALTER TABLE "character_faction" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_faction" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_guild"
+--
+
+DROP TABLE IF EXISTS "character_guild";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_guild" (
+  "character_guild_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "guild_id" int(11) unsigned NOT NULL,
+  "guild_leader" tinyint(4) DEFAULT NULL,
+  PRIMARY KEY ("character_guild_id"),
+  UNIQUE KEY "uk_guild_id_guild_leader" ("guild_id","guild_leader"),
+  KEY "fk_character_guild_character_id" ("character_id"),
+  CONSTRAINT "fk_character_guild_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_guild_guild_id" FOREIGN KEY ("guild_id") REFERENCES "guild" ("guild_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_guild"
+--
+
+LOCK TABLES "character_guild" WRITE;
+/*!40000 ALTER TABLE "character_guild" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_guild" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_guild_rank"
+--
+
+DROP TABLE IF EXISTS "character_guild_rank";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_guild_rank" (
+  "character_guild_rank_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "guild_rank_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("character_guild_rank_id"),
+  UNIQUE KEY "uk_character_id_guild_rank_id" ("character_id","guild_rank_id"),
+  KEY "fk_character_guild_rank_guild_rank_id" ("guild_rank_id"),
+  CONSTRAINT "fk_character_guild_rank_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_guild_rank_guild_rank_id" FOREIGN KEY ("guild_rank_id") REFERENCES "guild_rank" ("guild_rank_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_guild_rank"
+--
+
+LOCK TABLES "character_guild_rank" WRITE;
+/*!40000 ALTER TABLE "character_guild_rank" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_guild_rank" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_item"
+--
+
+DROP TABLE IF EXISTS "character_item";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_item" (
+  "character_item_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "item_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("character_item_id"),
+  UNIQUE KEY "uk_character_id_item_id" ("character_id","item_id"),
+  KEY "fk_character_item_item_id" ("item_id"),
+  CONSTRAINT "fk_character_item_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_item_item_id" FOREIGN KEY ("item_id") REFERENCES "item" ("item_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_item"
+--
+
+LOCK TABLES "character_item" WRITE;
+/*!40000 ALTER TABLE "character_item" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_item" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_location"
+--
+
+DROP TABLE IF EXISTS "character_location";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_location" (
+  "character_location_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "location_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("character_location_id"),
+  UNIQUE KEY "uk_character_id" ("character_id"),
+  KEY "fk_character_location_location_id" ("location_id"),
+  CONSTRAINT "fk_character_location_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_location_location_id" FOREIGN KEY ("location_id") REFERENCES "location" ("location_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_location"
+--
+
+LOCK TABLES "character_location" WRITE;
+/*!40000 ALTER TABLE "character_location" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_location" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_loot"
+--
+
+DROP TABLE IF EXISTS "character_loot";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_loot" (
+  "character_loot_id" int(11) unsigned NOT NULL,
+  "loot_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("character_loot_id"),
+  KEY "fk_character_loot_loot_id" ("loot_id"),
+  KEY "fk_character_loot_character_id" ("character_id"),
+  CONSTRAINT "fk_character_loot_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_loot_loot_id" FOREIGN KEY ("loot_id") REFERENCES "loot" ("loot_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_loot"
+--
+
+LOCK TABLES "character_loot" WRITE;
+/*!40000 ALTER TABLE "character_loot" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_loot" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_party"
+--
+
+DROP TABLE IF EXISTS "character_party";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_party" (
+  "character_party_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "party_id" int(11) unsigned NOT NULL,
+  "party_leader" tinyint(4) DEFAULT NULL,
+  PRIMARY KEY ("character_party_id"),
+  UNIQUE KEY "uk_character_id" ("character_id"),
+  UNIQUE KEY "uk_party_id_party_leader" ("party_id","party_leader"),
+  CONSTRAINT "fk_character_party_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_party_party_id" FOREIGN KEY ("party_id") REFERENCES "party" ("party_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_party"
+--
+
+LOCK TABLES "character_party" WRITE;
+/*!40000 ALTER TABLE "character_party" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_party" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_status_effect"
+--
+
+DROP TABLE IF EXISTS "character_status_effect";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_status_effect" (
+  "character_status_effect_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "status_effect_id" int(11) unsigned NOT NULL,
+  "date" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("character_status_effect_id"),
+  KEY "fk_character_status_effect_status_effect_id" ("status_effect_id"),
+  KEY "fk_character_status_effect_character_id" ("character_id"),
+  CONSTRAINT "fk_character_status_effect_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_status_effect_status_effect_id" FOREIGN KEY ("status_effect_id") REFERENCES "status_effect" ("status_effect_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_status_effect"
+--
+
+LOCK TABLES "character_status_effect" WRITE;
+/*!40000 ALTER TABLE "character_status_effect" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_status_effect" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_title"
+--
+
+DROP TABLE IF EXISTS "character_title";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_title" (
+  "character_title_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  "title_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("character_title_id"),
+  KEY "fk_character_title_character_id" ("character_id"),
+  KEY "fk_character_title_title_id" ("title_id"),
+  CONSTRAINT "fk_character_title_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_character_title_title_id" FOREIGN KEY ("title_id") REFERENCES "title" ("title_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_title"
+--
+
+LOCK TABLES "character_title" WRITE;
+/*!40000 ALTER TABLE "character_title" DISABLE KEYS */;
+/*!40000 ALTER TABLE "character_title" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "character_type"
+--
+
+DROP TABLE IF EXISTS "character_type";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "character_type" (
+  "character_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("character_type_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "character_type"
+--
+
+LOCK TABLES "character_type" WRITE;
+/*!40000 ALTER TABLE "character_type" DISABLE KEYS */;
+INSERT INTO "character_type" VALUES (1,'player'),(2,'non-playable');
+/*!40000 ALTER TABLE "character_type" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "class"
+--
+
+DROP TABLE IF EXISTS "class";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "class" (
+  "class_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("class_id"),
+  UNIQUE KEY "uk_name" ("name")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "class"
+--
+
+LOCK TABLES "class" WRITE;
+/*!40000 ALTER TABLE "class" DISABLE KEYS */;
+/*!40000 ALTER TABLE "class" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "class_ability"
+--
+
+DROP TABLE IF EXISTS "class_ability";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "class_ability" (
+  "class_ability_id" int(11) unsigned NOT NULL,
+  "class_id" int(11) unsigned NOT NULL,
+  "ability_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("class_ability_id"),
+  UNIQUE KEY "uk_class_id_ability_id" ("class_id","ability_id"),
+  KEY "fk_class_ability_ability_id" ("ability_id"),
+  CONSTRAINT "fk_class_ability_ability_id" FOREIGN KEY ("ability_id") REFERENCES "ability" ("ability_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_class_ability_class_id" FOREIGN KEY ("class_id") REFERENCES "class" ("class_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "class_ability"
+--
+
+LOCK TABLES "class_ability" WRITE;
+/*!40000 ALTER TABLE "class_ability" DISABLE KEYS */;
+/*!40000 ALTER TABLE "class_ability" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "conf"
+--
+
+DROP TABLE IF EXISTS "conf";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "conf" (
+  "conf_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "value" varchar(255) DEFAULT NULL,
+  PRIMARY KEY ("conf_id"),
+  UNIQUE KEY "uk_name" ("name")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "conf"
+--
+
+LOCK TABLES "conf" WRITE;
+/*!40000 ALTER TABLE "conf" DISABLE KEYS */;
+/*!40000 ALTER TABLE "conf" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "effect_type"
+--
+
+DROP TABLE IF EXISTS "effect_type";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "effect_type" (
+  "effect_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "desc" varchar(255) DEFAULT NULL,
+  PRIMARY KEY ("effect_type_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "effect_type"
+--
+
+LOCK TABLES "effect_type" WRITE;
+/*!40000 ALTER TABLE "effect_type" DISABLE KEYS */;
+INSERT INTO "effect_type" VALUES (1,'buff','A temporary benefit to a character’s attributes'),(2,'debuff','A temporary hindrance to a character’s attributes');
+/*!40000 ALTER TABLE "effect_type" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "entity"
+--
+
+DROP TABLE IF EXISTS "entity";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "entity" (
+  "entity_id" int(11) unsigned NOT NULL,
+  "entity_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "level" smallint(6) DEFAULT NULL,
+  PRIMARY KEY ("entity_id"),
+  KEY "fk_entity_entity_type_id" ("entity_type_id"),
+  CONSTRAINT "fk_entity_entity_type_id" FOREIGN KEY ("entity_type_id") REFERENCES "entity_type" ("entity_type_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "entity"
+--
+
+LOCK TABLES "entity" WRITE;
+/*!40000 ALTER TABLE "entity" DISABLE KEYS */;
+/*!40000 ALTER TABLE "entity" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "entity_attribute"
+--
+
+DROP TABLE IF EXISTS "entity_attribute";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "entity_attribute" (
+  "entity_attribute_id" int(11) unsigned NOT NULL,
+  "entity_id" int(11) unsigned NOT NULL,
+  "attribute_id" int(11) unsigned NOT NULL,
+  "value" bigint(20) NOT NULL,
+  PRIMARY KEY ("entity_attribute_id"),
+  UNIQUE KEY "uk_entity_id_attribute_id" ("entity_id","attribute_id"),
+  KEY "fk_entity_attribute_attribute_id" ("attribute_id"),
+  CONSTRAINT "fk_entity_attribute_attribute_id" FOREIGN KEY ("attribute_id") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_entity_attribute_entity_id" FOREIGN KEY ("entity_id") REFERENCES "entity" ("entity_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "entity_attribute"
+--
+
+LOCK TABLES "entity_attribute" WRITE;
+/*!40000 ALTER TABLE "entity_attribute" DISABLE KEYS */;
+/*!40000 ALTER TABLE "entity_attribute" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "entity_class"
+--
+
+DROP TABLE IF EXISTS "entity_class";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "entity_class" (
+  "entity_class_id" int(11) unsigned NOT NULL,
+  "entity_id" int(11) unsigned NOT NULL,
+  "class_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("entity_class_id"),
+  UNIQUE KEY "uk_entity_id" ("entity_id"),
+  KEY "fk_entity_class_class_id" ("class_id"),
+  CONSTRAINT "fk_entity_class_class_id" FOREIGN KEY ("class_id") REFERENCES "class" ("class_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_entity_class_entity_id" FOREIGN KEY ("entity_id") REFERENCES "entity" ("entity_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "entity_class"
+--
+
+LOCK TABLES "entity_class" WRITE;
+/*!40000 ALTER TABLE "entity_class" DISABLE KEYS */;
+/*!40000 ALTER TABLE "entity_class" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "entity_faction"
+--
+
+DROP TABLE IF EXISTS "entity_faction";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "entity_faction" (
+  "entity_faction_id" int(11) unsigned NOT NULL,
+  "entity_id" int(11) unsigned NOT NULL,
+  "faction_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("entity_faction_id"),
+  KEY "fk_entity_faction_entity_id" ("entity_id"),
+  KEY "fk_entity_faction_faction_id" ("faction_id"),
+  CONSTRAINT "fk_entity_faction_entity_id" FOREIGN KEY ("entity_id") REFERENCES "entity" ("entity_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_entity_faction_faction_id" FOREIGN KEY ("faction_id") REFERENCES "faction" ("faction_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "entity_faction"
+--
+
+LOCK TABLES "entity_faction" WRITE;
+/*!40000 ALTER TABLE "entity_faction" DISABLE KEYS */;
+/*!40000 ALTER TABLE "entity_faction" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "entity_location"
+--
+
+DROP TABLE IF EXISTS "entity_location";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "entity_location" (
+  "entity_location_id" int(11) unsigned NOT NULL,
+  "entity_id" int(11) unsigned NOT NULL,
+  "location_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("entity_location_id"),
+  UNIQUE KEY "uk_entity_id" ("entity_id"),
+  KEY "fk_entity_location_location_id" ("location_id"),
+  CONSTRAINT "fk_entity_location_entity_id" FOREIGN KEY ("entity_id") REFERENCES "entity" ("entity_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_entity_location_location_id" FOREIGN KEY ("location_id") REFERENCES "location" ("location_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "entity_location"
+--
+
+LOCK TABLES "entity_location" WRITE;
+/*!40000 ALTER TABLE "entity_location" DISABLE KEYS */;
+/*!40000 ALTER TABLE "entity_location" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "entity_loot"
+--
+
+DROP TABLE IF EXISTS "entity_loot";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "entity_loot" (
+  "entity_loot_id" int(11) unsigned NOT NULL,
+  "loot_id" int(11) unsigned NOT NULL,
+  "entity_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("entity_loot_id"),
+  KEY "fk_entity_loot_loot_id" ("loot_id"),
+  KEY "fk_entity_loot_entity_id" ("entity_id"),
+  CONSTRAINT "fk_entity_loot_entity_id" FOREIGN KEY ("entity_id") REFERENCES "entity" ("entity_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_entity_loot_loot_id" FOREIGN KEY ("loot_id") REFERENCES "loot" ("loot_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "entity_loot"
+--
+
+LOCK TABLES "entity_loot" WRITE;
+/*!40000 ALTER TABLE "entity_loot" DISABLE KEYS */;
+/*!40000 ALTER TABLE "entity_loot" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "entity_status_effect"
+--
+
+DROP TABLE IF EXISTS "entity_status_effect";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "entity_status_effect" (
+  "entity_status_effect_id" int(11) unsigned NOT NULL,
+  "entity_id" int(11) unsigned NOT NULL,
+  "status_effect_id" int(11) unsigned NOT NULL,
+  "date" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("entity_status_effect_id"),
+  KEY "fk_entity_status_effect_status_effect_id" ("status_effect_id"),
+  KEY "fk_entity_status_effect_entity_id" ("entity_id"),
+  CONSTRAINT "fk_entity_status_effect_entity_id" FOREIGN KEY ("entity_id") REFERENCES "entity" ("entity_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_entity_status_effect_status_effect_id" FOREIGN KEY ("status_effect_id") REFERENCES "status_effect" ("status_effect_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "entity_status_effect"
+--
+
+LOCK TABLES "entity_status_effect" WRITE;
+/*!40000 ALTER TABLE "entity_status_effect" DISABLE KEYS */;
+/*!40000 ALTER TABLE "entity_status_effect" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "entity_type"
+--
+
+DROP TABLE IF EXISTS "entity_type";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "entity_type" (
+  "entity_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("entity_type_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "entity_type"
+--
+
+LOCK TABLES "entity_type" WRITE;
+/*!40000 ALTER TABLE "entity_type" DISABLE KEYS */;
+/*!40000 ALTER TABLE "entity_type" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "equipment_slot"
+--
+
+DROP TABLE IF EXISTS "equipment_slot";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "equipment_slot" (
+  "equipment_slot_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("equipment_slot_id"),
+  UNIQUE KEY "uk_name" ("name")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "equipment_slot"
+--
+
+LOCK TABLES "equipment_slot" WRITE;
+/*!40000 ALTER TABLE "equipment_slot" DISABLE KEYS */;
+INSERT INTO "equipment_slot" VALUES (4,'back'),(3,'chest'),(11,'ears'),(9,'feet'),(6,'hands'),(1,'head'),(8,'leg'),(13,'main_hand'),(10,'neck'),(14,'off_hand'),(12,'ring'),(2,'shoulder'),(7,'waist'),(5,'wrist');
+/*!40000 ALTER TABLE "equipment_slot" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "faction"
+--
+
+DROP TABLE IF EXISTS "faction";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "faction" (
+  "faction_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("faction_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "faction"
+--
+
+LOCK TABLES "faction" WRITE;
+/*!40000 ALTER TABLE "faction" DISABLE KEYS */;
+/*!40000 ALTER TABLE "faction" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "guild"
+--
+
+DROP TABLE IF EXISTS "guild";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "guild" (
+  "guild_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("guild_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "guild"
+--
+
+LOCK TABLES "guild" WRITE;
+/*!40000 ALTER TABLE "guild" DISABLE KEYS */;
+/*!40000 ALTER TABLE "guild" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "guild_rank"
+--
+
+DROP TABLE IF EXISTS "guild_rank";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "guild_rank" (
+  "guild_rank_id" int(11) unsigned NOT NULL,
+  "guild_id" int(11) unsigned NOT NULL,
+  "rank_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("guild_rank_id"),
+  UNIQUE KEY "uk_guild_id_rank_id" ("guild_id","rank_id"),
+  KEY "fk_guild_rank_rank_id" ("rank_id"),
+  CONSTRAINT "fk_guild_rank_guild_id" FOREIGN KEY ("guild_id") REFERENCES "guild" ("guild_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_guild_rank_rank_id" FOREIGN KEY ("rank_id") REFERENCES "rank" ("rank_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "guild_rank"
+--
+
+LOCK TABLES "guild_rank" WRITE;
+/*!40000 ALTER TABLE "guild_rank" DISABLE KEYS */;
+/*!40000 ALTER TABLE "guild_rank" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "item"
+--
+
+DROP TABLE IF EXISTS "item";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "item" (
+  "item_id" int(11) unsigned NOT NULL,
+  "item_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "required_level" smallint(6) DEFAULT NULL,
+  "durability" tinyint(4) NOT NULL,
+  PRIMARY KEY ("item_id"),
+  KEY "fk_item_item_type_id" ("item_type_id"),
+  CONSTRAINT "fk_item_item_type_id" FOREIGN KEY ("item_type_id") REFERENCES "item_type" ("item_type_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "item"
+--
+
+LOCK TABLES "item" WRITE;
+/*!40000 ALTER TABLE "item" DISABLE KEYS */;
+/*!40000 ALTER TABLE "item" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "item_attribute"
+--
+
+DROP TABLE IF EXISTS "item_attribute";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "item_attribute" (
+  "item_attribute_id" int(11) unsigned NOT NULL,
+  "item_id" int(11) unsigned NOT NULL,
+  "attribute_id" int(11) unsigned NOT NULL,
+  "value" bigint(20) NOT NULL,
+  PRIMARY KEY ("item_attribute_id"),
+  UNIQUE KEY "uk_item_id_attribute_id" ("item_id","attribute_id"),
+  KEY "fk_item_attribute_attribute_id" ("attribute_id"),
+  CONSTRAINT "fk_item_attribute_attribute_id" FOREIGN KEY ("attribute_id") REFERENCES "attribute" ("attribute_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_item_attribute_item_id" FOREIGN KEY ("item_id") REFERENCES "item" ("item_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "item_attribute"
+--
+
+LOCK TABLES "item_attribute" WRITE;
+/*!40000 ALTER TABLE "item_attribute" DISABLE KEYS */;
+/*!40000 ALTER TABLE "item_attribute" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "item_location"
+--
+
+DROP TABLE IF EXISTS "item_location";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "item_location" (
+  "item_location_id" int(11) unsigned NOT NULL,
+  "item_id" int(11) unsigned NOT NULL,
+  "location_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("item_location_id"),
+  UNIQUE KEY "uk_item_id" ("item_id"),
+  KEY "fk_item_location_location_id" ("location_id"),
+  CONSTRAINT "fk_item_location_item_id" FOREIGN KEY ("item_id") REFERENCES "item" ("item_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_item_location_location_id" FOREIGN KEY ("location_id") REFERENCES "location" ("location_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "item_location"
+--
+
+LOCK TABLES "item_location" WRITE;
+/*!40000 ALTER TABLE "item_location" DISABLE KEYS */;
+/*!40000 ALTER TABLE "item_location" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "item_loot"
+--
+
+DROP TABLE IF EXISTS "item_loot";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "item_loot" (
+  "item_loot_id" int(11) unsigned NOT NULL,
+  "loot_id" int(11) unsigned NOT NULL,
+  "item_id" int(11) unsigned NOT NULL,
+  "drop_chance" float(4,4) DEFAULT NULL,
+  PRIMARY KEY ("item_loot_id"),
+  KEY "fk_item_loot_loot_id" ("loot_id"),
+  KEY "fk_item_loot_item_id" ("item_id"),
+  CONSTRAINT "fk_item_loot_item_id" FOREIGN KEY ("item_id") REFERENCES "item" ("item_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_item_loot_loot_id" FOREIGN KEY ("loot_id") REFERENCES "loot" ("loot_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "item_loot"
+--
+
+LOCK TABLES "item_loot" WRITE;
+/*!40000 ALTER TABLE "item_loot" DISABLE KEYS */;
+/*!40000 ALTER TABLE "item_loot" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "item_type"
+--
+
+DROP TABLE IF EXISTS "item_type";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "item_type" (
+  "item_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "desc" varchar(255) DEFAULT NULL,
+  PRIMARY KEY ("item_type_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "item_type"
+--
+
+LOCK TABLES "item_type" WRITE;
+/*!40000 ALTER TABLE "item_type" DISABLE KEYS */;
+/*!40000 ALTER TABLE "item_type" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "location"
+--
+
+DROP TABLE IF EXISTS "location";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "location" (
+  "location_id" int(11) unsigned NOT NULL,
+  "x" bigint(20) NOT NULL,
+  "y" bigint(20) NOT NULL,
+  "place_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("location_id"),
+  UNIQUE KEY "uk_x_y" ("x","y"),
+  KEY "fk_location_place_id" ("place_id"),
+  CONSTRAINT "fk_location_place_id" FOREIGN KEY ("place_id") REFERENCES "place" ("place_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "location"
+--
+
+LOCK TABLES "location" WRITE;
+/*!40000 ALTER TABLE "location" DISABLE KEYS */;
+/*!40000 ALTER TABLE "location" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "loot"
+--
+
+DROP TABLE IF EXISTS "loot";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "loot" (
+  "loot_id" int(11) unsigned NOT NULL,
+  "xp" bigint(20) DEFAULT NULL,
+  "money" bigint(20) DEFAULT NULL,
+  PRIMARY KEY ("loot_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "loot"
+--
+
+LOCK TABLES "loot" WRITE;
+/*!40000 ALTER TABLE "loot" DISABLE KEYS */;
+/*!40000 ALTER TABLE "loot" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "party"
+--
+
+DROP TABLE IF EXISTS "party";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "party" (
+  "party_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("party_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "party"
+--
+
+LOCK TABLES "party" WRITE;
+/*!40000 ALTER TABLE "party" DISABLE KEYS */;
+/*!40000 ALTER TABLE "party" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "place"
+--
+
+DROP TABLE IF EXISTS "place";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "place" (
+  "place_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("place_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "place"
+--
+
+LOCK TABLES "place" WRITE;
+/*!40000 ALTER TABLE "place" DISABLE KEYS */;
+/*!40000 ALTER TABLE "place" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "rank"
+--
+
+DROP TABLE IF EXISTS "rank";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "rank" (
+  "rank_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("rank_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "rank"
+--
+
+LOCK TABLES "rank" WRITE;
+/*!40000 ALTER TABLE "rank" DISABLE KEYS */;
+/*!40000 ALTER TABLE "rank" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "status_effect"
+--
+
+DROP TABLE IF EXISTS "status_effect";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "status_effect" (
+  "status_effect_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "effect_type_id" int(11) unsigned NOT NULL,
+  "duration" bigint(20) DEFAULT NULL,
+  "desc" varchar(255) DEFAULT NULL,
+  PRIMARY KEY ("status_effect_id"),
+  KEY "fk_status_effect_effect_type_id" ("effect_type_id"),
+  CONSTRAINT "fk_status_effect_effect_type_id" FOREIGN KEY ("effect_type_id") REFERENCES "effect_type" ("effect_type_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "status_effect"
+--
+
+LOCK TABLES "status_effect" WRITE;
+/*!40000 ALTER TABLE "status_effect" DISABLE KEYS */;
+/*!40000 ALTER TABLE "status_effect" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "title"
+--
+
+DROP TABLE IF EXISTS "title";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "title" (
+  "title_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("title_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "title"
+--
+
+LOCK TABLES "title" WRITE;
+/*!40000 ALTER TABLE "title" DISABLE KEYS */;
+/*!40000 ALTER TABLE "title" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "user"
+--
+
+DROP TABLE IF EXISTS "user";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "user" (
+  "user_id" int(11) unsigned NOT NULL,
+  "user_type_id" int(11) unsigned NOT NULL,
+  "first_name" varchar(255) NOT NULL,
+  "last_name" varchar(255) NOT NULL,
+  "email" varchar(255) NOT NULL,
+  "password" varchar(255) NOT NULL,
+  PRIMARY KEY ("user_id"),
+  KEY "fk_user_user_type_id" ("user_type_id"),
+  CONSTRAINT "fk_user_user_type_id" FOREIGN KEY ("user_type_id") REFERENCES "user_type" ("user_type_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "user"
+--
+
+LOCK TABLES "user" WRITE;
+/*!40000 ALTER TABLE "user" DISABLE KEYS */;
+/*!40000 ALTER TABLE "user" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "user_character"
+--
+
+DROP TABLE IF EXISTS "user_character";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "user_character" (
+  "user_character_id" int(11) unsigned NOT NULL,
+  "user_id" int(11) unsigned NOT NULL,
+  "character_id" int(11) unsigned NOT NULL,
+  PRIMARY KEY ("user_character_id"),
+  UNIQUE KEY "uk_user_id_character_id" ("user_id","character_id"),
+  KEY "fk_user_character_character_id" ("character_id"),
+  CONSTRAINT "fk_user_character_character_id" FOREIGN KEY ("character_id") REFERENCES "character" ("character_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "fk_user_character_user_id" FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "user_character"
+--
+
+LOCK TABLES "user_character" WRITE;
+/*!40000 ALTER TABLE "user_character" DISABLE KEYS */;
+/*!40000 ALTER TABLE "user_character" ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table "user_type"
+--
+
+DROP TABLE IF EXISTS "user_type";
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE "user_type" (
+  "user_type_id" int(11) unsigned NOT NULL,
+  "name" varchar(255) NOT NULL,
+  PRIMARY KEY ("user_type_id")
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table "user_type"
+--
+
+LOCK TABLES "user_type" WRITE;
+/*!40000 ALTER TABLE "user_type" DISABLE KEYS */;
+INSERT INTO "user_type" VALUES (1,'admin'),(2,'moderator'),(3,'player'),(4,'spectator');
+/*!40000 ALTER TABLE "user_type" ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-04-09  2:16:32

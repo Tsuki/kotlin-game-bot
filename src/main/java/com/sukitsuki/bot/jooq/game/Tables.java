@@ -4,7 +4,54 @@
 package com.sukitsuki.bot.jooq.game;
 
 
+import com.sukitsuki.bot.jooq.game.tables.Ability;
+import com.sukitsuki.bot.jooq.game.tables.AbilityType;
+import com.sukitsuki.bot.jooq.game.tables.Attribute;
+import com.sukitsuki.bot.jooq.game.tables.Character;
+import com.sukitsuki.bot.jooq.game.tables.CharacterAttribute;
+import com.sukitsuki.bot.jooq.game.tables.CharacterClass;
+import com.sukitsuki.bot.jooq.game.tables.CharacterEquipment;
+import com.sukitsuki.bot.jooq.game.tables.CharacterFaction;
+import com.sukitsuki.bot.jooq.game.tables.CharacterGuild;
+import com.sukitsuki.bot.jooq.game.tables.CharacterGuildRank;
+import com.sukitsuki.bot.jooq.game.tables.CharacterItem;
+import com.sukitsuki.bot.jooq.game.tables.CharacterLocation;
+import com.sukitsuki.bot.jooq.game.tables.CharacterLoot;
+import com.sukitsuki.bot.jooq.game.tables.CharacterParty;
+import com.sukitsuki.bot.jooq.game.tables.CharacterStatusEffect;
+import com.sukitsuki.bot.jooq.game.tables.CharacterTitle;
+import com.sukitsuki.bot.jooq.game.tables.CharacterType;
+import com.sukitsuki.bot.jooq.game.tables.Class;
+import com.sukitsuki.bot.jooq.game.tables.ClassAbility;
+import com.sukitsuki.bot.jooq.game.tables.Conf;
+import com.sukitsuki.bot.jooq.game.tables.EffectType;
+import com.sukitsuki.bot.jooq.game.tables.Entity;
+import com.sukitsuki.bot.jooq.game.tables.EntityAttribute;
+import com.sukitsuki.bot.jooq.game.tables.EntityClass;
+import com.sukitsuki.bot.jooq.game.tables.EntityFaction;
+import com.sukitsuki.bot.jooq.game.tables.EntityLocation;
+import com.sukitsuki.bot.jooq.game.tables.EntityLoot;
+import com.sukitsuki.bot.jooq.game.tables.EntityStatusEffect;
+import com.sukitsuki.bot.jooq.game.tables.EntityType;
+import com.sukitsuki.bot.jooq.game.tables.EquipmentSlot;
+import com.sukitsuki.bot.jooq.game.tables.Faction;
+import com.sukitsuki.bot.jooq.game.tables.Guild;
+import com.sukitsuki.bot.jooq.game.tables.GuildRank;
+import com.sukitsuki.bot.jooq.game.tables.Item;
+import com.sukitsuki.bot.jooq.game.tables.ItemAttribute;
+import com.sukitsuki.bot.jooq.game.tables.ItemLocation;
+import com.sukitsuki.bot.jooq.game.tables.ItemLoot;
+import com.sukitsuki.bot.jooq.game.tables.ItemType;
+import com.sukitsuki.bot.jooq.game.tables.Location;
+import com.sukitsuki.bot.jooq.game.tables.Loot;
+import com.sukitsuki.bot.jooq.game.tables.Party;
+import com.sukitsuki.bot.jooq.game.tables.Place;
+import com.sukitsuki.bot.jooq.game.tables.Rank;
+import com.sukitsuki.bot.jooq.game.tables.StatusEffect;
+import com.sukitsuki.bot.jooq.game.tables.Title;
 import com.sukitsuki.bot.jooq.game.tables.User;
+import com.sukitsuki.bot.jooq.game.tables.UserCharacter;
+import com.sukitsuki.bot.jooq.game.tables.UserType;
 
 import javax.annotation.Generated;
 
@@ -23,7 +70,242 @@ import javax.annotation.Generated;
 public class Tables {
 
     /**
-     * The table <code>game.User</code>.
+     * The table <code>game.ability</code>.
+     */
+    public static final Ability ABILITY = com.sukitsuki.bot.jooq.game.tables.Ability.ABILITY;
+
+    /**
+     * The table <code>game.ability_type</code>.
+     */
+    public static final AbilityType ABILITY_TYPE = com.sukitsuki.bot.jooq.game.tables.AbilityType.ABILITY_TYPE;
+
+    /**
+     * The table <code>game.attribute</code>.
+     */
+    public static final Attribute ATTRIBUTE = com.sukitsuki.bot.jooq.game.tables.Attribute.ATTRIBUTE;
+
+    /**
+     * The table <code>game.character</code>.
+     */
+    public static final Character CHARACTER = com.sukitsuki.bot.jooq.game.tables.Character.CHARACTER;
+
+    /**
+     * The table <code>game.character_attribute</code>.
+     */
+    public static final CharacterAttribute CHARACTER_ATTRIBUTE = com.sukitsuki.bot.jooq.game.tables.CharacterAttribute.CHARACTER_ATTRIBUTE;
+
+    /**
+     * The table <code>game.character_class</code>.
+     */
+    public static final CharacterClass CHARACTER_CLASS = com.sukitsuki.bot.jooq.game.tables.CharacterClass.CHARACTER_CLASS;
+
+    /**
+     * The table <code>game.character_equipment</code>.
+     */
+    public static final CharacterEquipment CHARACTER_EQUIPMENT = com.sukitsuki.bot.jooq.game.tables.CharacterEquipment.CHARACTER_EQUIPMENT;
+
+    /**
+     * The table <code>game.character_faction</code>.
+     */
+    public static final CharacterFaction CHARACTER_FACTION = com.sukitsuki.bot.jooq.game.tables.CharacterFaction.CHARACTER_FACTION;
+
+    /**
+     * The table <code>game.character_guild</code>.
+     */
+    public static final CharacterGuild CHARACTER_GUILD = com.sukitsuki.bot.jooq.game.tables.CharacterGuild.CHARACTER_GUILD;
+
+    /**
+     * The table <code>game.character_guild_rank</code>.
+     */
+    public static final CharacterGuildRank CHARACTER_GUILD_RANK = com.sukitsuki.bot.jooq.game.tables.CharacterGuildRank.CHARACTER_GUILD_RANK;
+
+    /**
+     * The table <code>game.character_item</code>.
+     */
+    public static final CharacterItem CHARACTER_ITEM = com.sukitsuki.bot.jooq.game.tables.CharacterItem.CHARACTER_ITEM;
+
+    /**
+     * The table <code>game.character_location</code>.
+     */
+    public static final CharacterLocation CHARACTER_LOCATION = com.sukitsuki.bot.jooq.game.tables.CharacterLocation.CHARACTER_LOCATION;
+
+    /**
+     * The table <code>game.character_loot</code>.
+     */
+    public static final CharacterLoot CHARACTER_LOOT = com.sukitsuki.bot.jooq.game.tables.CharacterLoot.CHARACTER_LOOT;
+
+    /**
+     * The table <code>game.character_party</code>.
+     */
+    public static final CharacterParty CHARACTER_PARTY = com.sukitsuki.bot.jooq.game.tables.CharacterParty.CHARACTER_PARTY;
+
+    /**
+     * The table <code>game.character_status_effect</code>.
+     */
+    public static final CharacterStatusEffect CHARACTER_STATUS_EFFECT = com.sukitsuki.bot.jooq.game.tables.CharacterStatusEffect.CHARACTER_STATUS_EFFECT;
+
+    /**
+     * The table <code>game.character_title</code>.
+     */
+    public static final CharacterTitle CHARACTER_TITLE = com.sukitsuki.bot.jooq.game.tables.CharacterTitle.CHARACTER_TITLE;
+
+    /**
+     * The table <code>game.character_type</code>.
+     */
+    public static final CharacterType CHARACTER_TYPE = com.sukitsuki.bot.jooq.game.tables.CharacterType.CHARACTER_TYPE;
+
+    /**
+     * The table <code>game.class</code>.
+     */
+    public static final Class CLASS = com.sukitsuki.bot.jooq.game.tables.Class.CLASS;
+
+    /**
+     * The table <code>game.class_ability</code>.
+     */
+    public static final ClassAbility CLASS_ABILITY = com.sukitsuki.bot.jooq.game.tables.ClassAbility.CLASS_ABILITY;
+
+    /**
+     * The table <code>game.conf</code>.
+     */
+    public static final Conf CONF = com.sukitsuki.bot.jooq.game.tables.Conf.CONF;
+
+    /**
+     * The table <code>game.effect_type</code>.
+     */
+    public static final EffectType EFFECT_TYPE = com.sukitsuki.bot.jooq.game.tables.EffectType.EFFECT_TYPE;
+
+    /**
+     * The table <code>game.entity</code>.
+     */
+    public static final Entity ENTITY = com.sukitsuki.bot.jooq.game.tables.Entity.ENTITY;
+
+    /**
+     * The table <code>game.entity_attribute</code>.
+     */
+    public static final EntityAttribute ENTITY_ATTRIBUTE = com.sukitsuki.bot.jooq.game.tables.EntityAttribute.ENTITY_ATTRIBUTE;
+
+    /**
+     * The table <code>game.entity_class</code>.
+     */
+    public static final EntityClass ENTITY_CLASS = com.sukitsuki.bot.jooq.game.tables.EntityClass.ENTITY_CLASS;
+
+    /**
+     * The table <code>game.entity_faction</code>.
+     */
+    public static final EntityFaction ENTITY_FACTION = com.sukitsuki.bot.jooq.game.tables.EntityFaction.ENTITY_FACTION;
+
+    /**
+     * The table <code>game.entity_location</code>.
+     */
+    public static final EntityLocation ENTITY_LOCATION = com.sukitsuki.bot.jooq.game.tables.EntityLocation.ENTITY_LOCATION;
+
+    /**
+     * The table <code>game.entity_loot</code>.
+     */
+    public static final EntityLoot ENTITY_LOOT = com.sukitsuki.bot.jooq.game.tables.EntityLoot.ENTITY_LOOT;
+
+    /**
+     * The table <code>game.entity_status_effect</code>.
+     */
+    public static final EntityStatusEffect ENTITY_STATUS_EFFECT = com.sukitsuki.bot.jooq.game.tables.EntityStatusEffect.ENTITY_STATUS_EFFECT;
+
+    /**
+     * The table <code>game.entity_type</code>.
+     */
+    public static final EntityType ENTITY_TYPE = com.sukitsuki.bot.jooq.game.tables.EntityType.ENTITY_TYPE;
+
+    /**
+     * The table <code>game.equipment_slot</code>.
+     */
+    public static final EquipmentSlot EQUIPMENT_SLOT = com.sukitsuki.bot.jooq.game.tables.EquipmentSlot.EQUIPMENT_SLOT;
+
+    /**
+     * The table <code>game.faction</code>.
+     */
+    public static final Faction FACTION = com.sukitsuki.bot.jooq.game.tables.Faction.FACTION;
+
+    /**
+     * The table <code>game.guild</code>.
+     */
+    public static final Guild GUILD = com.sukitsuki.bot.jooq.game.tables.Guild.GUILD;
+
+    /**
+     * The table <code>game.guild_rank</code>.
+     */
+    public static final GuildRank GUILD_RANK = com.sukitsuki.bot.jooq.game.tables.GuildRank.GUILD_RANK;
+
+    /**
+     * The table <code>game.item</code>.
+     */
+    public static final Item ITEM = com.sukitsuki.bot.jooq.game.tables.Item.ITEM;
+
+    /**
+     * The table <code>game.item_attribute</code>.
+     */
+    public static final ItemAttribute ITEM_ATTRIBUTE = com.sukitsuki.bot.jooq.game.tables.ItemAttribute.ITEM_ATTRIBUTE;
+
+    /**
+     * The table <code>game.item_location</code>.
+     */
+    public static final ItemLocation ITEM_LOCATION = com.sukitsuki.bot.jooq.game.tables.ItemLocation.ITEM_LOCATION;
+
+    /**
+     * The table <code>game.item_loot</code>.
+     */
+    public static final ItemLoot ITEM_LOOT = com.sukitsuki.bot.jooq.game.tables.ItemLoot.ITEM_LOOT;
+
+    /**
+     * The table <code>game.item_type</code>.
+     */
+    public static final ItemType ITEM_TYPE = com.sukitsuki.bot.jooq.game.tables.ItemType.ITEM_TYPE;
+
+    /**
+     * The table <code>game.location</code>.
+     */
+    public static final Location LOCATION = com.sukitsuki.bot.jooq.game.tables.Location.LOCATION;
+
+    /**
+     * The table <code>game.loot</code>.
+     */
+    public static final Loot LOOT = com.sukitsuki.bot.jooq.game.tables.Loot.LOOT;
+
+    /**
+     * The table <code>game.party</code>.
+     */
+    public static final Party PARTY = com.sukitsuki.bot.jooq.game.tables.Party.PARTY;
+
+    /**
+     * The table <code>game.place</code>.
+     */
+    public static final Place PLACE = com.sukitsuki.bot.jooq.game.tables.Place.PLACE;
+
+    /**
+     * The table <code>game.rank</code>.
+     */
+    public static final Rank RANK = com.sukitsuki.bot.jooq.game.tables.Rank.RANK;
+
+    /**
+     * The table <code>game.status_effect</code>.
+     */
+    public static final StatusEffect STATUS_EFFECT = com.sukitsuki.bot.jooq.game.tables.StatusEffect.STATUS_EFFECT;
+
+    /**
+     * The table <code>game.title</code>.
+     */
+    public static final Title TITLE = com.sukitsuki.bot.jooq.game.tables.Title.TITLE;
+
+    /**
+     * The table <code>game.user</code>.
      */
     public static final User USER = com.sukitsuki.bot.jooq.game.tables.User.USER;
+
+    /**
+     * The table <code>game.user_character</code>.
+     */
+    public static final UserCharacter USER_CHARACTER = com.sukitsuki.bot.jooq.game.tables.UserCharacter.USER_CHARACTER;
+
+    /**
+     * The table <code>game.user_type</code>.
+     */
+    public static final UserType USER_TYPE = com.sukitsuki.bot.jooq.game.tables.UserType.USER_TYPE;
 }

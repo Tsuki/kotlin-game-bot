@@ -8,13 +8,13 @@ import com.sukitsuki.bot.jooq.game.Game;
 import com.sukitsuki.bot.jooq.game.Keys;
 import com.sukitsuki.bot.jooq.game.tables.records.UserRecord;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.ForeignKey;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -35,10 +35,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-    private static final long serialVersionUID = 1799564003;
+    private static final long serialVersionUID = 1790056688;
 
     /**
-     * The reference instance of <code>game.User</code>
+     * The reference instance of <code>game.user</code>
      */
     public static final User USER = new User();
 
@@ -51,74 +51,44 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * The column <code>game.User.id</code>.
+     * The column <code>game.user.user_id</code>.
      */
-    public final TableField<UserRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<UserRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>game.User.exp</code>.
+     * The column <code>game.user.user_type_id</code>.
      */
-    public final TableField<UserRecord, Integer> EXP = createField("exp", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<UserRecord, Integer> USER_TYPE_ID = createField("user_type_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>game.User.level</code>.
+     * The column <code>game.user.first_name</code>.
      */
-    public final TableField<UserRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<UserRecord, String> FIRST_NAME = createField("first_name", org.jooq.impl.SQLDataType.VARCHAR.length(510).nullable(false), this, "");
 
     /**
-     * The column <code>game.User.attack</code>.
+     * The column <code>game.user.last_name</code>.
      */
-    public final TableField<UserRecord, Integer> ATTACK = createField("attack", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("5", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<UserRecord, String> LAST_NAME = createField("last_name", org.jooq.impl.SQLDataType.VARCHAR.length(510).nullable(false), this, "");
 
     /**
-     * The column <code>game.User.defence</code>.
+     * The column <code>game.user.email</code>.
      */
-    public final TableField<UserRecord, Integer> DEFENCE = createField("defence", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("5", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<UserRecord, String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR.length(510).nullable(false), this, "");
 
     /**
-     * The column <code>game.User.faction</code>.
+     * The column <code>game.user.password</code>.
      */
-    public final TableField<UserRecord, Integer> FACTION = createField("faction", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<UserRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR.length(510).nullable(false), this, "");
 
     /**
-     * The column <code>game.User.location</code>.
-     */
-    public final TableField<UserRecord, Integer> LOCATION = createField("location", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
-
-    /**
-     * The column <code>game.User.hp</code>.
-     */
-    public final TableField<UserRecord, Float> HP = createField("hp", org.jooq.impl.SQLDataType.REAL.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.REAL)), this, "");
-
-    /**
-     * The column <code>game.User.mp</code>.
-     */
-    public final TableField<UserRecord, Float> MP = createField("mp", org.jooq.impl.SQLDataType.REAL.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.REAL)), this, "");
-
-    /**
-     * The column <code>game.User.last_updatetime</code>.
-     */
-    public final TableField<UserRecord, Timestamp> LAST_UPDATETIME = createField("last_updatetime", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("('now'::text)::date", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
-
-    /**
-     * The column <code>game.User.hp_max</code>.
-     */
-    public final TableField<UserRecord, Integer> HP_MAX = createField("hp_max", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("100", org.jooq.impl.SQLDataType.INTEGER)), this, "");
-
-    /**
-     * The column <code>game.User.mp_max</code>.
-     */
-    public final TableField<UserRecord, Integer> MP_MAX = createField("mp_max", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("100", org.jooq.impl.SQLDataType.INTEGER)), this, "");
-
-    /**
-     * Create a <code>game.User</code> table reference
+     * Create a <code>game.user</code> table reference
      */
     public User() {
-        this("User", null);
+        this("user", null);
     }
 
     /**
-     * Create an aliased <code>game.User</code> table reference
+     * Create an aliased <code>game.user</code> table reference
      */
     public User(String alias) {
         this(alias, USER);
@@ -154,6 +124,14 @@ public class User extends TableImpl<UserRecord> {
     @Override
     public List<UniqueKey<UserRecord>> getKeys() {
         return Arrays.<UniqueKey<UserRecord>>asList(Keys.USER_PKEY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ForeignKey<UserRecord, ?>> getReferences() {
+        return Arrays.<ForeignKey<UserRecord, ?>>asList(Keys.USER__FK_USER_USER_TYPE_ID);
     }
 
     /**

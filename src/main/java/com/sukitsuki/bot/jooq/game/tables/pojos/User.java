@@ -5,7 +5,6 @@ package com.sukitsuki.bot.jooq.game.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -23,178 +22,100 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User implements Serializable {
 
-    private static final long serialVersionUID = -1518542454;
+    private static final long serialVersionUID = 552613338;
 
-    private Integer   id;
-    private Integer   exp;
-    private Integer   level;
-    private Integer   attack;
-    private Integer   defence;
-    private Integer   faction;
-    private Integer   location;
-    private Float     hp;
-    private Float     mp;
-    private Timestamp lastUpdatetime;
-    private Integer   hpMax;
-    private Integer   mpMax;
+    private Integer userId;
+    private Integer userTypeId;
+    private String  firstName;
+    private String  lastName;
+    private String  email;
+    private String  password;
 
     public User() {}
 
     public User(User value) {
-        this.id = value.id;
-        this.exp = value.exp;
-        this.level = value.level;
-        this.attack = value.attack;
-        this.defence = value.defence;
-        this.faction = value.faction;
-        this.location = value.location;
-        this.hp = value.hp;
-        this.mp = value.mp;
-        this.lastUpdatetime = value.lastUpdatetime;
-        this.hpMax = value.hpMax;
-        this.mpMax = value.mpMax;
+        this.userId = value.userId;
+        this.userTypeId = value.userTypeId;
+        this.firstName = value.firstName;
+        this.lastName = value.lastName;
+        this.email = value.email;
+        this.password = value.password;
     }
 
     public User(
-        Integer   id,
-        Integer   exp,
-        Integer   level,
-        Integer   attack,
-        Integer   defence,
-        Integer   faction,
-        Integer   location,
-        Float     hp,
-        Float     mp,
-        Timestamp lastUpdatetime,
-        Integer   hpMax,
-        Integer   mpMax
+        Integer userId,
+        Integer userTypeId,
+        String  firstName,
+        String  lastName,
+        String  email,
+        String  password
     ) {
-        this.id = id;
-        this.exp = exp;
-        this.level = level;
-        this.attack = attack;
-        this.defence = defence;
-        this.faction = faction;
-        this.location = location;
-        this.hp = hp;
-        this.mp = mp;
-        this.lastUpdatetime = lastUpdatetime;
-        this.hpMax = hpMax;
-        this.mpMax = mpMax;
+        this.userId = userId;
+        this.userTypeId = userTypeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
     }
 
-    public Integer getId() {
-        return this.id;
+    public Integer getUserId() {
+        return this.userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Integer getExp() {
-        return this.exp;
+    public Integer getUserTypeId() {
+        return this.userTypeId;
     }
 
-    public void setExp(Integer exp) {
-        this.exp = exp;
+    public void setUserTypeId(Integer userTypeId) {
+        this.userTypeId = userTypeId;
     }
 
-    public Integer getLevel() {
-        return this.level;
+    public String getFirstName() {
+        return this.firstName;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public Integer getAttack() {
-        return this.attack;
+    public String getLastName() {
+        return this.lastName;
     }
 
-    public void setAttack(Integer attack) {
-        this.attack = attack;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public Integer getDefence() {
-        return this.defence;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setDefence(Integer defence) {
-        this.defence = defence;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Integer getFaction() {
-        return this.faction;
+    public String getPassword() {
+        return this.password;
     }
 
-    public void setFaction(Integer faction) {
-        this.faction = faction;
-    }
-
-    public Integer getLocation() {
-        return this.location;
-    }
-
-    public void setLocation(Integer location) {
-        this.location = location;
-    }
-
-    public Float getHp() {
-        return this.hp;
-    }
-
-    public void setHp(Float hp) {
-        this.hp = hp;
-    }
-
-    public Float getMp() {
-        return this.mp;
-    }
-
-    public void setMp(Float mp) {
-        this.mp = mp;
-    }
-
-    public Timestamp getLastUpdatetime() {
-        return this.lastUpdatetime;
-    }
-
-    public void setLastUpdatetime(Timestamp lastUpdatetime) {
-        this.lastUpdatetime = lastUpdatetime;
-    }
-
-    public Integer getHpMax() {
-        return this.hpMax;
-    }
-
-    public void setHpMax(Integer hpMax) {
-        this.hpMax = hpMax;
-    }
-
-    public Integer getMpMax() {
-        return this.mpMax;
-    }
-
-    public void setMpMax(Integer mpMax) {
-        this.mpMax = mpMax;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("User (");
 
-        sb.append(id);
-        sb.append(", ").append(exp);
-        sb.append(", ").append(level);
-        sb.append(", ").append(attack);
-        sb.append(", ").append(defence);
-        sb.append(", ").append(faction);
-        sb.append(", ").append(location);
-        sb.append(", ").append(hp);
-        sb.append(", ").append(mp);
-        sb.append(", ").append(lastUpdatetime);
-        sb.append(", ").append(hpMax);
-        sb.append(", ").append(mpMax);
+        sb.append(userId);
+        sb.append(", ").append(userTypeId);
+        sb.append(", ").append(firstName);
+        sb.append(", ").append(lastName);
+        sb.append(", ").append(email);
+        sb.append(", ").append(password);
 
         sb.append(")");
         return sb.toString();

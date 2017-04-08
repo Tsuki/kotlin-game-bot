@@ -73,7 +73,7 @@ fun main(args: Array<String>) {
                 "/ping" -> sendText(update, "pong")
                 else -> return false
             }
-            logger.debug { "user \n $user" }
+            logger.debug { "user \n$user" }
             user.store()
             return true
         }
