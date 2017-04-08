@@ -4,7 +4,7 @@
 package com.sukitsuki.bot.jooq;
 
 
-import com.sukitsuki.bot.jooq.public_.Public;
+import com.sukitsuki.bot.jooq.game.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ import org.jooq.impl.CatalogImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultCatalog extends CatalogImpl {
 
-    private static final long serialVersionUID = -2067701635;
+    private static final long serialVersionUID = -1370410796;
 
     /**
      * The reference instance of <code></code>
@@ -37,9 +37,9 @@ public class DefaultCatalog extends CatalogImpl {
     public static final DefaultCatalog DEFAULT_CATALOG = new DefaultCatalog();
 
     /**
-     * The schema <code>PUBLIC</code>.
+     * The schema <code>game</code>.
      */
-    public final Public PUBLIC = com.sukitsuki.bot.jooq.public_.Public.PUBLIC;
+    public final Game GAME = com.sukitsuki.bot.jooq.game.Game.GAME;
 
     /**
      * No further instances allowed
@@ -57,6 +57,6 @@ public class DefaultCatalog extends CatalogImpl {
 
     private final List<Schema> getSchemas0() {
         return Arrays.<Schema>asList(
-            Public.PUBLIC);
+            Game.GAME);
     }
 }

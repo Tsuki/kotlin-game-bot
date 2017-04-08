@@ -28,7 +28,7 @@ buildscript {
         // https://mvnrepository.com/artifact/org.flywaydb/flyway-gradle-plugin
         classpath group: 'org.flywaydb', name: 'flyway-gradle-plugin', version: '4.1.2'
         classpath 'org.jooq:jooq-codegen:3.9.1'
-        classpath 'com.h2database:h2:1.4.177'
+        classpath group: 'postgresql', name: 'postgresql', version: '9.4.1208-jdbc42-atlassian-hosted'
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath 'net.researchgate:gradle-release:2.6.0'
@@ -37,13 +37,14 @@ buildscript {
 }
 
 flyway {
-    url = 'jdbc:h2:file:./target/telegram'
+    url = 'jdbc:postgresql://localhost:5432/game'
+    driver = 'org.postgresql.Driver'
+    schemas = ['game']
 }
 
 dependencies {
     testCompile "junit:junit:4.12"
     compile 'org.jooq:jooq:3.9.1'
-    runtime 'com.h2database:h2:1.4.177'
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
     // https://mvnrepository.com/artifact/com.google.inject/guice
@@ -52,6 +53,7 @@ dependencies {
     compile group: 'com.zaxxer', name: 'HikariCP', version: '2.6.1'
     // https://mvnrepository.com/artifact/postgresql/postgresql
     compile group: 'postgresql', name: 'postgresql', version: '9.4.1208-jdbc42-atlassian-hosted'
+//    compile group: 'com.impossibl.pgjdbc-ng', name: 'pgjdbc-ng', version: '0.7'
 
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
@@ -77,16 +79,17 @@ task generate << {
     def xml = new MarkupBuilder(writer)
             .configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.9.0.xsd') {
         jdbc() {
-            driver('org.h2.Driver')
-            url('jdbc:h2:file:./target/telegram')
-            user('')
+            driver('org.postgresql.Driver')
+            url('jdbc:postgresql://localhost:5432/game')
+            user("$username")
             password('')
         }
         generator() {
             database() {
+                name 'org.jooq.util.postgres.PostgresDatabase'
 //                inputSchema 'public'
-                includes 'public.*'
-                excludes 'public.schema_version'
+                includes 'game.*'
+                excludes 'game.schema_version'
             }
 
             // Watch out for this caveat when using MarkupBuilder with "reserved names"
@@ -98,7 +101,7 @@ task generate << {
             }
             target() {
                 packageName('com.sukitsuki.bot.jooq')
-                directory('./bot/anime-bot/src/main/java')
+                directory('./src/main/java')
             }
         }
     }
