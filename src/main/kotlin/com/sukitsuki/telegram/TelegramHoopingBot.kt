@@ -1,6 +1,5 @@
 package com.sukitsuki.telegram
 
-import com.google.gson.Gson
 import com.sukitsuki.telegram.entities.Update
 import com.sukitsuki.telegram.handler.StopProcessingException
 import com.sukitsuki.telegram.handler.UpdateHandler
@@ -62,24 +61,23 @@ class TelegramHoopingBot internal constructor(
     override fun listen(maxId: Long, handler: UpdateHandler): Long {
         options.logActivity = true
         server = vertx.createHttpServer(options)
-        .requestHandler {
-            val response = it.response()
-            it.bodyHandler { body ->
-                if (body.bytes.isEmpty()){
-                    return@bodyHandler
-                }
-                val update = gson.fromJson(body.toString(), Update::class.java)
-                try {
-                    handler.handleUpdate(update)
-                } catch(e: StopProcessingException) {
-                    response.statusCode = 200
-                    response.end("{\"ok\": true}")
-                    exit(0)
-                }
-                response.statusCode = 200
-                response.end("{\"ok\": true}")
-            }
-        }.listen(8443)
+                .requestHandler {
+                    val response = it.response()
+                    it.bodyHandler { body ->
+                        response.statusCode = 200
+                        if (body.bytes.isEmpty()) {
+                            response.end("{\"ok\": false}")
+                            return@bodyHandler
+                        }
+                        val update = gson.fromJson(body.toString(), Update::class.java)
+                        try {
+                            response.end("{\"ok\": true}")
+                            handler.handleUpdate(update)
+                        } catch(e: StopProcessingException) {
+                            exit(0)
+                        }
+                    }
+                }.listen(8443)
         val response = this.setWebhook(requestString(properties.hookUrl)).execute()
         if (!response.isSuccessful) {
             logger.error("Set web hook ${properties.hookUrl} error message: ${response.errorBody().string()}")

@@ -1,7 +1,6 @@
 package com.sukitsuki.bot
 
-import com.google.gson.Gson
-import com.sukitsuki.bot.service.BangumiService
+import com.sukitsuki.bot.jooq.game.Tables.USER
 import com.sukitsuki.telegram.TelegramHoopingBot
 import com.sukitsuki.telegram.TelegramPollingBot
 import com.sukitsuki.telegram.TelegramProperties
@@ -20,8 +19,6 @@ import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 private val logger = KotlinLogging.logger {}
@@ -34,7 +31,7 @@ fun main(args: Array<String>) {
 
     logger.info { properties }
     val bot = when {
-        properties.webHook -> TelegramHoopingBot.create(properties = properties, logLevel = Level.BASIC)
+        properties.webHook -> TelegramHoopingBot.create(properties = properties, logLevel = Level.NONE)
         else -> TelegramPollingBot.create(properties = properties)
     }
 
@@ -46,9 +43,17 @@ fun main(args: Array<String>) {
         override fun visitText(update: Update, message: Message, text: String): Boolean {
             if (update.message != null) {
                 val to = update.message.chat.firstName ?: update.message.chat.title
-                logger.info("Send message to ${update.message.from?.firstName} from $to ${update.message.chat.type}")
+                val name = update.message.from?.firstName
+                val type = update.message.chat.type
+                logger.info("Receive  $text from $name in $to $type")
             }
             when (text) {
+                "/start" -> {
+                    val userRecord = using.newRecord(USER)
+                    userRecord.id = update.message?.from?.id?.toInt()
+                    using.insertInto(USER).set(userRecord).onDuplicateKeyIgnore().execute()
+                    sendText(update, "user started")
+                }
                 "/info", "/info@NatsukiBot" -> replayText(update, "Language: Kotlin \n" +
                         "Library: yat-kotlin-telegram-bot-api \n" +
                         "Running Time: ${PeriodFormat.getDefault().print(Period(startTime, DateTime().toInstant()))}")
