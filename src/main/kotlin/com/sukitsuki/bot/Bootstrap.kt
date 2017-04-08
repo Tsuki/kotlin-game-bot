@@ -14,11 +14,13 @@ import mu.KotlinLogging
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import org.joda.time.DateTime
 import org.joda.time.Period
+import org.joda.time.Seconds
 import org.joda.time.format.PeriodFormat
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
+import java.sql.Timestamp
 
 
 private val logger = KotlinLogging.logger {}
@@ -41,17 +43,27 @@ fun main(args: Array<String>) {
     val using: DSLContext = DSL.using(configuration)
     bot.listen(properties.lastId, VisitorUpdateHandler(visitor = object : AbstractUpdateVisitor() {
         override fun visitText(update: Update, message: Message, text: String): Boolean {
-            if (update.message != null) {
-                val to = update.message.chat.firstName ?: update.message.chat.title
-                val name = update.message.from?.firstName
-                val type = update.message.chat.type
-                logger.info("Receive  $text from $name in $to $type")
+            val ups: Float = 1F / 60
+            val to = update.message!!.chat.firstName ?: update.message.chat.title
+            val name = update.message.from?.firstName
+            val type = update.message.chat.type
+            val id = update.message.from?.id?.toInt()
+            val now = DateTime()
+            logger.info("Receive  $text from $name in $to $type")
+            var user = using.selectFrom(USER).where(USER.ID.eq(id)).fetchOne()
+            if (user == null) {
+                user = using.newRecord(USER)
+                user.id = id
+                user.lastUpdatetime = Timestamp(now.millis)
+                user = using.insertInto(USER).set(user).returning().fetchOne()
             }
+            val increment = ups * Seconds.secondsBetween(DateTime(user.lastUpdatetime), now).seconds
+            logger.debug { "user \n$user" }
+            user.lastUpdatetime = Timestamp(now.millis)
+            user.mp = minOf(user.mpMax.toFloat(), user.mp + increment)
+            user.hp = minOf(user.hpMax.toFloat(), user.hp + increment)
             when (text) {
                 "/start" -> {
-                    val userRecord = using.newRecord(USER)
-                    userRecord.id = update.message?.from?.id?.toInt()
-                    using.insertInto(USER).set(userRecord).onDuplicateKeyIgnore().execute()
                     sendText(update, "user started")
                 }
                 "/info", "/info@NatsukiBot" -> replayText(update, "Language: Kotlin \n" +
@@ -61,6 +73,8 @@ fun main(args: Array<String>) {
                 "/ping" -> sendText(update, "pong")
                 else -> return false
             }
+            logger.debug { "user \n $user" }
+            user.store()
             return true
         }
 

@@ -5,6 +5,7 @@ package com.sukitsuki.bot.jooq.game.tables.pojos;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -22,19 +23,20 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1131015282;
+    private static final long serialVersionUID = -1518542454;
 
-    private Integer id;
-    private Integer exp;
-    private Integer level;
-    private Integer attack;
-    private Integer defence;
-    private Integer faction;
-    private Integer location;
-    private Integer hp;
-    private Integer mp;
-    private Integer hpMax;
-    private Integer mpMax;
+    private Integer   id;
+    private Integer   exp;
+    private Integer   level;
+    private Integer   attack;
+    private Integer   defence;
+    private Integer   faction;
+    private Integer   location;
+    private Float     hp;
+    private Float     mp;
+    private Timestamp lastUpdatetime;
+    private Integer   hpMax;
+    private Integer   mpMax;
 
     public User() {}
 
@@ -48,22 +50,24 @@ public class User implements Serializable {
         this.location = value.location;
         this.hp = value.hp;
         this.mp = value.mp;
+        this.lastUpdatetime = value.lastUpdatetime;
         this.hpMax = value.hpMax;
         this.mpMax = value.mpMax;
     }
 
     public User(
-        Integer id,
-        Integer exp,
-        Integer level,
-        Integer attack,
-        Integer defence,
-        Integer faction,
-        Integer location,
-        Integer hp,
-        Integer mp,
-        Integer hpMax,
-        Integer mpMax
+        Integer   id,
+        Integer   exp,
+        Integer   level,
+        Integer   attack,
+        Integer   defence,
+        Integer   faction,
+        Integer   location,
+        Float     hp,
+        Float     mp,
+        Timestamp lastUpdatetime,
+        Integer   hpMax,
+        Integer   mpMax
     ) {
         this.id = id;
         this.exp = exp;
@@ -74,6 +78,7 @@ public class User implements Serializable {
         this.location = location;
         this.hp = hp;
         this.mp = mp;
+        this.lastUpdatetime = lastUpdatetime;
         this.hpMax = hpMax;
         this.mpMax = mpMax;
     }
@@ -134,20 +139,28 @@ public class User implements Serializable {
         this.location = location;
     }
 
-    public Integer getHp() {
+    public Float getHp() {
         return this.hp;
     }
 
-    public void setHp(Integer hp) {
+    public void setHp(Float hp) {
         this.hp = hp;
     }
 
-    public Integer getMp() {
+    public Float getMp() {
         return this.mp;
     }
 
-    public void setMp(Integer mp) {
+    public void setMp(Float mp) {
         this.mp = mp;
+    }
+
+    public Timestamp getLastUpdatetime() {
+        return this.lastUpdatetime;
+    }
+
+    public void setLastUpdatetime(Timestamp lastUpdatetime) {
+        this.lastUpdatetime = lastUpdatetime;
     }
 
     public Integer getHpMax() {
@@ -179,6 +192,7 @@ public class User implements Serializable {
         sb.append(", ").append(location);
         sb.append(", ").append(hp);
         sb.append(", ").append(mp);
+        sb.append(", ").append(lastUpdatetime);
         sb.append(", ").append(hpMax);
         sb.append(", ").append(mpMax);
 

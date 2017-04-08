@@ -1,15 +1,16 @@
 CREATE TABLE "User"
 (
-    id INT PRIMARY KEY NOT NULL,
-    exp INT default 0 not null,
-    level INT default 0 not null,
-    attack INT default 5 not null,
-    defence INT default 5 not null,
-    faction INT default 0 not null,
-    location INT default 0 not null,
-    hp INT default 0 not null,
-    mp INT default 0 not null,
-    hp_max INT default 100 not null,
-    mp_max INT default 100 not null
+  id              INT PRIMARY KEY                 NOT NULL,
+  exp             INT DEFAULT 0                   NOT NULL,
+  level           INT DEFAULT 0                   NOT NULL,
+  attack          INT DEFAULT 5                   NOT NULL,
+  defence         INT DEFAULT 5                   NOT NULL,
+  faction         INT DEFAULT 0                   NOT NULL,
+  location        INT DEFAULT 0                   NOT NULL,
+  hp              REAL DEFAULT 0                  NOT NULL,
+  mp              REAL DEFAULT 0                  NOT NULL,
+  last_updatetime TIMESTAMP DEFAULT current_date  NOT NULL,
+  hp_max          INT DEFAULT 100                 NOT NULL,
+  mp_max          INT DEFAULT 100                 NOT NULL
 );
 -- CREATE UNIQUE INDEX User_id_uindex ON "User" (id);

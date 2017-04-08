@@ -8,6 +8,7 @@ import com.sukitsuki.bot.jooq.game.Game;
 import com.sukitsuki.bot.jooq.game.Keys;
 import com.sukitsuki.bot.jooq.game.tables.records.UserRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-    private static final long serialVersionUID = 217420606;
+    private static final long serialVersionUID = 1799564003;
 
     /**
      * The reference instance of <code>game.User</code>
@@ -57,52 +58,57 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>game.User.exp</code>.
      */
-    public final TableField<UserRecord, Integer> EXP = createField("exp", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Integer> EXP = createField("exp", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>game.User.level</code>.
      */
-    public final TableField<UserRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>game.User.attack</code>.
      */
-    public final TableField<UserRecord, Integer> ATTACK = createField("attack", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Integer> ATTACK = createField("attack", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("5", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>game.User.defence</code>.
      */
-    public final TableField<UserRecord, Integer> DEFENCE = createField("defence", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Integer> DEFENCE = createField("defence", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("5", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>game.User.faction</code>.
      */
-    public final TableField<UserRecord, Integer> FACTION = createField("faction", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Integer> FACTION = createField("faction", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>game.User.location</code>.
      */
-    public final TableField<UserRecord, Integer> LOCATION = createField("location", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Integer> LOCATION = createField("location", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>game.User.hp</code>.
      */
-    public final TableField<UserRecord, Integer> HP = createField("hp", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Float> HP = createField("hp", org.jooq.impl.SQLDataType.REAL.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.REAL)), this, "");
 
     /**
      * The column <code>game.User.mp</code>.
      */
-    public final TableField<UserRecord, Integer> MP = createField("mp", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Float> MP = createField("mp", org.jooq.impl.SQLDataType.REAL.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.REAL)), this, "");
+
+    /**
+     * The column <code>game.User.last_updatetime</code>.
+     */
+    public final TableField<UserRecord, Timestamp> LAST_UPDATETIME = createField("last_updatetime", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("('now'::text)::date", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>game.User.hp_max</code>.
      */
-    public final TableField<UserRecord, Integer> HP_MAX = createField("hp_max", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Integer> HP_MAX = createField("hp_max", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("100", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>game.User.mp_max</code>.
      */
-    public final TableField<UserRecord, Integer> MP_MAX = createField("mp_max", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserRecord, Integer> MP_MAX = createField("mp_max", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("100", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * Create a <code>game.User</code> table reference
